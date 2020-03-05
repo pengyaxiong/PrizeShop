@@ -18,4 +18,10 @@
  *
  */
 
+use App\Admin\Extensions\Form\uEditor;
+use Encore\Admin\Form;
+
 Encore\Admin\Form::forget(['map']);
+
+
+Form::extend('ueditor', uEditor::class);
