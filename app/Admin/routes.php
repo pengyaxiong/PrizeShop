@@ -30,4 +30,10 @@ Route::group([
     $router->get('coupon_codes/{id}/edit', 'CouponCodesController@edit');
     $router->put('coupon_codes/{id}', 'CouponCodesController@update');
     $router->delete('coupon_codes/{id}', 'CouponCodesController@destroy');
+
+    $router->get('supplier', 'SupplierController@index');
+    $router->get('supplier/create', 'SupplierController@create');
+    $router->post('supplier', 'SupplierController@store');
+    $router->get('supplier/{id}/edit', 'SupplierController@edit');
+    $router->put('supplier/{id}', 'SupplierController@update');
 });
