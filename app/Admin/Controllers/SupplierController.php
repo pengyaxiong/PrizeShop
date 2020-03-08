@@ -9,6 +9,7 @@ use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Layout\Content;
 use Encore\Admin\Show;
+use Illuminate\Support\Facades\DB;
 
 class SupplierController extends Controller
 {
@@ -142,6 +143,28 @@ class SupplierController extends Controller
 
         $form->multipleFile('gallery', '证照资质')->removable();
 
+       // $form->slider('age','年龄')->options(['max' => 100, 'min' => 1, 'step' => 1, 'postfix' => ' years old'])->default(50);
+
+        $form->distpicker([
+            'province_id' => '省份',
+            'city_id' => '市',
+            'district_id' => '区'
+        ], '发货地址')->default([
+            'province' => 110000,
+            'city'     => 110100,
+            'district' => 110101,
+        ]);
+        $form->text('address', '发货地址详情')->rules('required');
+        $form->distpicker([
+            'back_province_id' => '省份',
+            'back_city_id' => '市',
+            'back_district_id' => '区'
+        ], '退货地址')->default([
+            'back_province' => 110000,
+            'back_city'     => 110100,
+            'back_district' => 110101,
+        ]);
+        $form->text('back_address', '退货地址详情')->rules('required');
         // 创建一个富文本编辑器
         // $form->editor('description', '商品描述')->rules('required');
         //百度编辑器
@@ -161,7 +184,19 @@ class SupplierController extends Controller
         });
         // 定义事件回调，当模型即将保存时会触发这个回调
         $form->saving(function (Form $form) {
-           // exit($form->model());
+            $province=DB::table('china_area')->where('code',$form->input('province_id'))->value('name');
+            $form->model()->province =$province;
+            $city=DB::table('china_area')->where('code',$form->input('city_id'))->value('name');
+            $form->model()->city =$city;
+            $district=DB::table('china_area')->where('code',$form->input('district_id'))->value('name');
+            $form->model()->district =$district;
+
+            $back_province=DB::table('china_area')->where('code',$form->input('province_id'))->value('name');
+            $form->model()->back_province =$back_province;
+            $back_city=DB::table('china_area')->where('code',$form->input('city_id'))->value('name');
+            $form->model()->back_city =$back_city;
+            $back_district=DB::table('china_area')->where('code',$form->input('district_id'))->value('name');
+            $form->model()->back_district =$back_district;
         });
 
         return $form;
