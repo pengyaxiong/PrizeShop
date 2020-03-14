@@ -74,6 +74,10 @@ return [
         //     'driver' => 'database',
         //     'table' => 'users',
         // ],
+        'wechat_user' => [
+            'driver' => 'eloquent',
+            'model' => Hanson\LaravelAdminWechat\Models\WechatUser::class, // 你也可以自己继承此 model 后修改为自己的 model
+        ],
     ],
 
     /*
